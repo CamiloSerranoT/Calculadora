@@ -8,6 +8,7 @@ package vista;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import negocio.CalculadoraSistemasN;
 
 /**
  *
@@ -15,7 +16,15 @@ import javax.swing.JPanel;
  */
 public class Transformacion extends javax.swing.JFrame {
 
-    private negocio.CalculadoraSistemasN oCalculadora = new negocio.CalculadoraSistemasN();
+    private double[] arreglo;
+
+    public double[] getArreglo() {
+        return arreglo;
+    }
+
+    public void setArreglo(double[] arreglo) {
+        this.arreglo = arreglo;
+    }
 
     /**
      * Creates new form Transformacion
@@ -52,11 +61,15 @@ public class Transformacion extends javax.swing.JFrame {
     }
 
     private void clickJbAceptar(ActionEvent e) {
+        CalculadoraSistemasN oCalculadora = new CalculadoraSistemasN();
         oCalculadora.setBaseInicial(Double.parseDouble(this.TextBase1.getText()));
         oCalculadora.setValorInicial(this.TextValor.getText());
         oCalculadora.setBaseFinal(Double.parseDouble(this.TextBase2.getText()));
+        
         oCalculadora.pasar();
-        //this.Resultado.setText(String.valueOf(oCalculadora.raiz.getDato()));
+        for (int i = 0; i < oCalculadora.getCantidad(); i++) {
+            this.Resultado.setText(String.valueOf(arreglo[i]));
+        }   
     }
 
     /**
@@ -77,10 +90,10 @@ public class Transformacion extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         TextBase2 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        Resultado = new javax.swing.JTextField();
         jbMenu = new javax.swing.JButton();
         jbAceptar = new javax.swing.JButton();
         jbSalir = new javax.swing.JButton();
+        Resultado = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -119,6 +132,9 @@ public class Transformacion extends javax.swing.JFrame {
         jbSalir.setText("Salir");
         jbSalir.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        Resultado.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        Resultado.setForeground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -145,8 +161,8 @@ public class Transformacion extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(145, 145, 145)
                         .addComponent(jLabel6)
-                        .addGap(66, 66, 66)
-                        .addComponent(Resultado, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(42, 42, 42)
+                        .addComponent(Resultado, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -174,10 +190,14 @@ public class Transformacion extends javax.swing.JFrame {
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TextBase2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Resultado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 2, Short.MAX_VALUE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(Resultado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(2, 2, 2)))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -241,7 +261,7 @@ public class Transformacion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Resultado;
+    private javax.swing.JLabel Resultado;
     private javax.swing.JTextField TextBase1;
     private javax.swing.JTextField TextBase2;
     private javax.swing.JTextField TextValor;
