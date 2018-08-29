@@ -67,7 +67,6 @@ public class Transformacion extends javax.swing.JFrame {
         oCalculadora.setBaseFinal(Double.parseDouble(this.TextBase2.getText()));
         
         oCalculadora.pasar();
-        
         for (int i = 0; i < oCalculadora.getCantidad(); i++) {
             this.Resultado.setText(String.valueOf(arreglo[i]));
         }   
