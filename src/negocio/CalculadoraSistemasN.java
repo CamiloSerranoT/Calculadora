@@ -5,6 +5,8 @@
  */
 package negocio;
 
+import vista.Transformacion;
+
 /**
  *
  * @author CAMILO
@@ -16,7 +18,7 @@ public class CalculadoraSistemasN {
     private double baseInicial;
     private String ValorInicial;
     private double baseFinal;
-    private vista.Transformacion transformar = new vista.Transformacion();
+    private double cantidad;
 
     public double getBaseInicial() {
         return baseInicial;
@@ -40,6 +42,14 @@ public class CalculadoraSistemasN {
 
     public void setBaseFinal(double baseFinal) {
         this.baseFinal = baseFinal;
+    }
+
+    public double getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(double cantidad) {
+        this.cantidad = cantidad;
     }
 
     public CalculadoraSistemasN() {
@@ -89,9 +99,11 @@ public class CalculadoraSistemasN {
         return valor;
     }
 
+    //Metodo principal
     public void pasar() {
+        Transformacion transformar = new Transformacion();
         vaciar();
-        double cantidad = 0;
+        boolean comprobar = false;
         double valorInt = Integer.parseInt(ValorInicial);
         if (baseInicial == baseFinal) {
             agregar(valorInt);
@@ -103,9 +115,14 @@ public class CalculadoraSistemasN {
                 trasformarAUnaBase(valorInt);
             }
         }
-        cantidad = can(cantidad);
+        can();
+        Nodo recorre = raiz;
         double[] arreglo = new double[(int) cantidad];
-        
+        for (int i = 0; i < cantidad; i++) {
+            arreglo[i] = recorre.getDato();
+            recorre = recorre.getSig();
+        }
+        transformar.setArreglo(arreglo);
     }
 
     private void trasformarAUnaBase(double valorInt) {
@@ -188,7 +205,8 @@ public class CalculadoraSistemasN {
         return var;
     }
 
-    private double can(double cantidad) {
+    private void can() {
+        double cantidad = 0;
         boolean comprobar = false;
         Nodo recorre = raiz;
         do {
@@ -198,7 +216,7 @@ public class CalculadoraSistemasN {
                 cantidad++;
             }
         } while (comprobar != true);
-        return cantidad;
+        setCantidad(cantidad);
     }
 
 }
