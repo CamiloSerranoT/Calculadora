@@ -63,25 +63,10 @@ public class CalculadoraSistemasN {
             raiz = nuevo;
             cola = nuevo;
         } else {
-            nuevo.setAnt(cola);
             cola.setSig(nuevo);
+            nuevo.setAnt(cola);
             cola = nuevo;
         }
-    }
-
-    public double eliminarPila() {
-        double valor = 0;
-        valor = raiz.getDato();
-
-        if (raiz == cola) {
-            raiz = null;
-            cola = null;
-        } else {
-            raiz = raiz.getSig();
-            raiz.getAnt().setSig(null);
-            raiz.setAnt(null);
-        }
-        return valor;
     }
 
     public double eliminarCola() {
@@ -102,19 +87,18 @@ public class CalculadoraSistemasN {
     //Metodo principal
     public void pasar() {
         Transformacion transformar = new Transformacion();
+        double[] aux = new double[ValorInicial.length()];
         vaciar();
         boolean comprobar = false;
-        double valorInt = Integer.parseInt(ValorInicial);
-        if (baseInicial == baseFinal) {
-            agregar(valorInt);
+        //double valorInt = Integer.parseInt(ValorInicial);
+        if (baseInicial == 10) {
+            aux = transVarAAreglo(aux);
+            trasformarAUnaBase(aux);
         } else {
-            if (baseInicial == 10) {
-                trasformarAUnaBase(valorInt);
-            } else {
-                valorInt = pasarADecimal();
-                trasformarAUnaBase(valorInt);
-            }
+            //valorInt = pasarADecimal();
+            //trasformarAUnaBase(valorInt);
         }
+
         can();
         Nodo recorre = raiz;
         double[] arreglo = new double[(int) cantidad];
@@ -125,12 +109,27 @@ public class CalculadoraSistemasN {
         transformar.setArreglo(arreglo);
     }
 
-    private void trasformarAUnaBase(double valorInt) {
+    private double[] transVarAAreglo(double[] aux) {
+        for (int i = 0; i < ValorInicial.length(); i++) {
+            aux[i] = poderTransformar(ValorInicial.charAt(i));
+        }
+        return aux;
+    }
+
+    private void trasformarAUnaBase(double[] aux) {
         boolean comprobar = false;
-        double dividendo = valorInt;
+        double nuevo = 0;
+        double dividendo = 0;
+        if (ValorInicial.length() >= 2) {
+            dividendo = (aux[0] * 10) + aux[1];
+        } else {
+            dividendo = aux[0];
+        }
+
         do {
             if (dividendo >= 0 && dividendo <= baseFinal - 1) {
-                agregar(dividendo % baseFinal);
+                nuevo = dividendo % baseFinal;
+                agregar(nuevo);
                 dividendo = dividendo / baseFinal;
             } else {
                 comprobar = true;

@@ -7,6 +7,7 @@ package vista;
 
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import negocio.CalculadoraSistemasN;
 
@@ -61,15 +62,28 @@ public class Transformacion extends javax.swing.JFrame {
     }
 
     private void clickJbAceptar(ActionEvent e) {
-        CalculadoraSistemasN oCalculadora = new CalculadoraSistemasN();
-        oCalculadora.setBaseInicial(Double.parseDouble(this.TextBase1.getText()));
-        oCalculadora.setValorInicial(this.TextValor.getText());
-        oCalculadora.setBaseFinal(Double.parseDouble(this.TextBase2.getText()));
-        
-        oCalculadora.pasar();
-        for (int i = 0; i < oCalculadora.getCantidad(); i++) {
-            this.Resultado.setText(String.valueOf(arreglo[i]));
-        }   
+        if (Double.parseDouble(this.TextBase1.getText()) >= 2 && Double.parseDouble(this.TextBase1.getText()) <= 16) {
+            if (Double.parseDouble(this.TextBase2.getText()) >= 2 && Double.parseDouble(this.TextBase2.getText()) <= 16) {
+                if (Double.parseDouble(this.TextBase1.getText()) == Double.parseDouble(this.TextBase2.getText())) {
+                    this.Resultado.setText(this.TextValor.getText());
+                } else {
+                    CalculadoraSistemasN oCalculadora = new CalculadoraSistemasN();
+                    oCalculadora.setBaseInicial(Double.parseDouble(this.TextBase1.getText()));
+                    oCalculadora.setValorInicial(this.TextValor.getText());
+                    oCalculadora.setBaseFinal(Double.parseDouble(this.TextBase2.getText()));
+
+                    oCalculadora.pasar();
+                    for (int i = 0; i < oCalculadora.getCantidad(); i++) {
+                        this.Resultado.setText(String.valueOf(arreglo[i]));
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "La base final solo puede ser entre[2-16]");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "La base inicial solo puede ser entre[2-16]");
+        }
+
     }
 
     /**
@@ -106,7 +120,7 @@ public class Transformacion extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Base inicial[1-16]:");
+        jLabel3.setText("Base inicial[2-16]:");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -114,7 +128,7 @@ public class Transformacion extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Base Final[1-16]:");
+        jLabel5.setText("Base Final[2-16]:");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
