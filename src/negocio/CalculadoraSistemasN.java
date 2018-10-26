@@ -18,7 +18,7 @@ public class CalculadoraSistemasN {
     private double baseInicial;
     private String ValorInicial;
     private double baseFinal;
-    private double cantidad;
+    private double posicion;
     private int rangoInicial;
     private int rangoFinal;
     Transformacion transformar = new Transformacion();
@@ -48,12 +48,12 @@ public class CalculadoraSistemasN {
         this.baseFinal = baseFinal;
     }
 
-    public double getCantidad() {
-        return cantidad;
+    public double getPosicion() {
+        return posicion;
     }
 
-    public void setCantidad(double cantidad) {
-        this.cantidad = cantidad;
+    public void setPosicion(double cantidad) {
+        this.posicion = cantidad;
     }
 
     public int getRangoInicial() {
@@ -75,6 +75,7 @@ public class CalculadoraSistemasN {
     public CalculadoraSistemasN() {
         raiz = null;
         cola = null;
+        posicion = 0;
     }
 
     public void agregar(double dato) {
@@ -106,10 +107,10 @@ public class CalculadoraSistemasN {
 
     public void rango() {
         setRangoInicial(tamaño((int) getBaseInicial()));
-        setRangoInicial(tamaño((int) getBaseFinal()));
+        setRangoFinal(tamaño((int) getBaseFinal()));
     }
 
-    public int tamaño(int valor) {
+    private int tamaño(int valor) {
         int aux = 0;
         if (valor >= 2 && valor <= 3) {
             aux = 2;
@@ -128,7 +129,7 @@ public class CalculadoraSistemasN {
         int[] inicial = new int[getRangoInicial() * getValorInicial().length()];
         double[] aux = new double[ValorInicial.length()];
         aux = conversion(aux);
-
+        inicial = pasarInicial(inicial, aux);
         return arreglo;
     }
 
@@ -137,10 +138,9 @@ public class CalculadoraSistemasN {
             aux[i] = poderTransformar(ValorInicial.charAt(i));
         }
         return aux;
-        
-        
     }
 
+    //Metodo para pasar valores de tipo char a tipo double
     private double poderTransformar(char valor) {
         double var = 0;
         double transInt = valor - 48;
@@ -175,25 +175,52 @@ public class CalculadoraSistemasN {
         return var;
     }
 
-    private void trasformarAUnaBase(double[] aux) {
+    private int[] pasarInicial(int[] inicial, double[] aux) {
+        for (int i = 0; i < aux.length; i++) {
+            inicial = trasformarAUnaBase((int) aux[i], inicial);
+        }
+        return inicial;
+    }
+
+    private int[] trasformarAUnaBase(int valor, int[] inicial) {
         boolean comprobar = false;
         double nuevo = 0;
-        double dividendo = 0;
-        if (ValorInicial.length() >= 2) {
-            dividendo = (aux[0] * 10) + aux[1];
-        } else {
-            dividendo = aux[0];
-        }
+        double dividendo = valor;
+        int cont = 0;
 
         do {
-            if (dividendo >= 0 && dividendo <= baseFinal - 1) {
-                nuevo = dividendo % baseFinal;
+            if (dividendo >= 0 && dividendo < 2) {
+                nuevo = dividendo % 2;
                 agregar(nuevo);
-                dividendo = dividendo / baseFinal;
+                dividendo = dividendo / 2;
+                cont++;
             } else {
                 comprobar = true;
             }
         } while (comprobar != true);
         agregar(dividendo);
+        cont++;
+
+        comprobar = false;
+        do {
+            if (cont < rangoInicial) {
+                agregar(0);
+                cont++;
+            } else {
+                comprobar = true;
+            }
+        } while (comprobar != true);
+
+        inicial = pasarVal(inicial);
+        return inicial;
     }
+
+    private int[] pasarVal(int[] inicial) {
+        for (int i = 0; i < rangoInicial; i++) {
+            inicial[(int) posicion] = (int) eliminarCola();
+            posicion++;
+        }
+        return inicial;
+    }
+
 }
