@@ -137,6 +137,8 @@ public class CalculadoraSistemasN {
             aux[i] = poderTransformar(ValorInicial.charAt(i));
         }
         return aux;
+        
+        
     }
 
     private double poderTransformar(char valor) {
