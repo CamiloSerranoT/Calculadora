@@ -63,12 +63,12 @@ public class Transformacion extends javax.swing.JFrame {
                     oCalculadora.setBaseFinal(Double.parseDouble(this.TextBase2.getText()));
 
                     oCalculadora.rango();
-                    int[] arreglo = new int[oCalculadora.getRangoFinal()*oCalculadora.getValorInicial().length()];
+                    int[] arreglo = new int[oCalculadora.getRangoFinal() * oCalculadora.getValorInicial().length()];
 
                     oCalculadora.pasar(arreglo);
-                    for (int i = 0; i < oCalculadora.getCantidad(); i++) {
-                        //this.Resultado.setText(String.valueOf(arreglo[i]));
-                    }
+                    //for (int i = 0; i < oCalculadora.getCantidad(); i++) {
+                    //this.Resultado.setText(String.valueOf(arreglo[i]));
+                    //}
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "La base final solo puede ser entre[2-16]");
