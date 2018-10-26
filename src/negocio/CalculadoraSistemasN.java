@@ -19,6 +19,10 @@ public class CalculadoraSistemasN {
     private String ValorInicial;
     private double baseFinal;
     private double cantidad;
+    private int rangoInicial;
+    private int rangoFinal;
+    Transformacion transformar = new Transformacion();
+    CalculadoraSistemasN cal = new CalculadoraSistemasN();
 
     public double getBaseInicial() {
         return baseInicial;
@@ -50,6 +54,22 @@ public class CalculadoraSistemasN {
 
     public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public int getRangoInicial() {
+        return rangoInicial;
+    }
+
+    public void setRangoInicial(int rangoInicial) {
+        this.rangoInicial = rangoInicial;
+    }
+
+    public int getRangoFinal() {
+        return rangoFinal;
+    }
+
+    public void setRangoFinal(int rangoFinal) {
+        this.rangoFinal = rangoFinal;
     }
 
     public CalculadoraSistemasN() {
@@ -84,95 +104,46 @@ public class CalculadoraSistemasN {
         return valor;
     }
 
-    //Metodo principal
-    public void pasar() {
-        Transformacion transformar = new Transformacion();
-        double[] aux = new double[ValorInicial.length()];
-        vaciar();
-        boolean comprobar = false;
-        //double valorInt = Integer.parseInt(ValorInicial);
-        if (baseInicial == 10) {
-            aux = transVarAAreglo(aux);
-            trasformarAUnaBase(aux);
-        } else {
-            //valorInt = pasarADecimal();
-            //trasformarAUnaBase(valorInt);
-        }
-
-        can();
-        Nodo recorre = raiz;
-        double[] arreglo = new double[(int) cantidad];
-        for (int i = 0; i < cantidad; i++) {
-            arreglo[i] = recorre.getDato();
-            recorre = recorre.getSig();
-        }
-        transformar.setArreglo(arreglo);
+    public void rango() {
+        setRangoInicial(tamaño((int) getBaseInicial()));
+        setRangoInicial(tamaño((int) getBaseFinal()));
     }
 
-    private double[] transVarAAreglo(double[] aux) {
-        for (int i = 0; i < ValorInicial.length(); i++) {
-            aux[i] = poderTransformar(ValorInicial.charAt(i));
+    public int tamaño(int valor) {
+        int aux = 0;
+        if (valor >= 2 && valor <= 3) {
+            aux = 2;
+        } else {
+            if (valor >= 4 && valor <= 7) {
+                aux = 3;
+            } else {
+                aux = 4;
+            }
         }
         return aux;
     }
 
-    private void trasformarAUnaBase(double[] aux) {
-        boolean comprobar = false;
-        double nuevo = 0;
-        double dividendo = 0;
-        if (ValorInicial.length() >= 2) {
-            dividendo = (aux[0] * 10) + aux[1];
-        } else {
-            dividendo = aux[0];
-        }
+    //Metodo principal
+    public int[] pasar(int[] arreglo) {
+        int[] inicial = new int[getRangoInicial() * getValorInicial().length()];
+        double[] aux = new double[ValorInicial.length()];
+        aux = conversion(aux);
 
-        do {
-            if (dividendo >= 0 && dividendo <= baseFinal - 1) {
-                nuevo = dividendo % baseFinal;
-                agregar(nuevo);
-                dividendo = dividendo / baseFinal;
-            } else {
-                comprobar = true;
-            }
-        } while (comprobar != true);
-        agregar(dividendo);
+        return arreglo;
     }
 
-    private double pasarADecimal() {
-        double valor = 0;
-        Nodo recorre = raiz;
+    private double[] conversion(double[] aux) {
         for (int i = 0; i < ValorInicial.length(); i++) {
-            agregar(poderTransformar(ValorInicial.charAt(i)));
+            aux[i] = poderTransformar(ValorInicial.charAt(i));
         }
-
-        for (int i = 0; i < ValorInicial.length(); i++) {
-            recorre.setDato(Math.pow(recorre.getDato(), ValorInicial.length() - 1 - i));
-            recorre = recorre.getSig();
-        }
-        recorre = raiz;
-        for (int i = 0; i < ValorInicial.length(); i++) {
-            valor = valor + recorre.getDato();
-            recorre = recorre.getSig();
-        }
-        vaciar();
-        return valor;
-    }
-
-    private void vaciar() {
-        boolean comprobar = false;
-        do {
-            if (raiz != null) {
-                eliminarCola();
-            } else {
-                comprobar = true;
-            }
-        } while (comprobar != true);
+        return aux;
+        
+        
     }
 
     private double poderTransformar(char valor) {
         double var = 0;
         double transInt = valor - 48;
-        System.out.println(transInt);
 
         if (transInt >= 0 && transInt <= 9) {
             var = transInt;
@@ -204,18 +175,25 @@ public class CalculadoraSistemasN {
         return var;
     }
 
-    private void can() {
-        double cantidad = 0;
+    private void trasformarAUnaBase(double[] aux) {
         boolean comprobar = false;
-        Nodo recorre = raiz;
+        double nuevo = 0;
+        double dividendo = 0;
+        if (ValorInicial.length() >= 2) {
+            dividendo = (aux[0] * 10) + aux[1];
+        } else {
+            dividendo = aux[0];
+        }
+
         do {
-            if (recorre.sig == null) {
-                comprobar = true;
+            if (dividendo >= 0 && dividendo <= baseFinal - 1) {
+                nuevo = dividendo % baseFinal;
+                agregar(nuevo);
+                dividendo = dividendo / baseFinal;
             } else {
-                cantidad++;
+                comprobar = true;
             }
         } while (comprobar != true);
-        setCantidad(cantidad);
+        agregar(dividendo);
     }
-
 }

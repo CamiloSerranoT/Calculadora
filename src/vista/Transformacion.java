@@ -17,16 +17,6 @@ import negocio.CalculadoraSistemasN;
  */
 public class Transformacion extends javax.swing.JFrame {
 
-    private double[] arreglo;
-
-    public double[] getArreglo() {
-        return arreglo;
-    }
-
-    public void setArreglo(double[] arreglo) {
-        this.arreglo = arreglo;
-    }
-
     /**
      * Creates new form Transformacion
      */
@@ -72,9 +62,12 @@ public class Transformacion extends javax.swing.JFrame {
                     oCalculadora.setValorInicial(this.TextValor.getText());
                     oCalculadora.setBaseFinal(Double.parseDouble(this.TextBase2.getText()));
 
-                    oCalculadora.pasar();
+                    oCalculadora.rango();
+                    int[] arreglo = new int[oCalculadora.getRangoFinal()*oCalculadora.getValorInicial().length()];
+
+                    oCalculadora.pasar(arreglo);
                     for (int i = 0; i < oCalculadora.getCantidad(); i++) {
-                        this.Resultado.setText(String.valueOf(arreglo[i]));
+                        //this.Resultado.setText(String.valueOf(arreglo[i]));
                     }
                 }
             } else {
